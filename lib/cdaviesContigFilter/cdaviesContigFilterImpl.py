@@ -94,7 +94,7 @@ This sample module contains one small method that filters contigs.
         # The return object gives us the path to the file that was created.
         logging.info('Downloading Assembly data as a Fasta file.')
         assemblyUtil = AssemblyUtil(self.callback_url)
-        fasta_file = assemblyUtil.get_assembly_as_fasta({'ref': 'assembly_input_ref'})
+        fasta_file = assemblyUtil.get_assembly_as_fasta({'ref': assembly_input_ref})
 
 
         # Step 3 - Actually perform the filter operation, saving the good contigs to a new fasta file.
@@ -159,14 +159,15 @@ This sample module contains one small method that filters contigs.
         # ctx is the context object
         # return variables are: output
         #BEGIN run_cdaviesContigFilter_max
-        for name in ['min_length', 'max_length', 'assembly_ref', 'workspace_name']:
+        logging.info('Starting run_cdaviesContigFilter_max function. Params=' + pformat(params))
+        for name in ['min_length', 'max_length', 'assembly_input_ref', 'workspace_name']:
             if name not in params:
                 raise ValueError('Parameter "' + name + '" is required but missing')
             if not isinstance(params['min_length'], int) or (params['min_length'] < 0):
                 raise ValueError('Min length must be a non-negative integer')
             if not isinstance(params['max_length'], int) or (params['max_length'] < 0):
                 raise ValueError('Max length must be a non-negative integer')
-            if not isinstance(params['assembly_ref'], str) or not len(params['assembly_ref']):
+            if not isinstance(params['assembly_input_ref'], str) or not len(params['assembly_input_ref']):
                 raise ValueError('Pass in a valid assembly reference string')
         print(params['min_length'], params['max_length'], params['assembly_ref'])
         output={}

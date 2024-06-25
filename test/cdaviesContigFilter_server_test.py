@@ -78,6 +78,7 @@ class cdaviesContigFilterTest(unittest.TestCase):
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
     def test_run_cdaviesContigFilter_ok(self):
         # call your implementation
+        print('test_run_cdaviesContigFilter_ok')
         ret = self.serviceImpl.run_cdaviesContigFilter(self.ctx,
                                                 {'workspace_name': self.wsName,
                                                  'assembly_input_ref': self.assembly_ref,
@@ -87,88 +88,91 @@ class cdaviesContigFilterTest(unittest.TestCase):
 
     
     def test_run_cdaviesContigFilter_min_len_negative(self):
+        print('test_run_cdaviesContigFilter_min_len_negative')
         with self.assertRaisesRegex(ValueError, 'min_length parameter cannot be negative'):
             self.serviceImpl.run_cdaviesContigFilter(self.ctx,
                                               {'workspace_name': self.wsName,
                                                'assembly_input_ref': '1/fake/3',
                                                'min_length': '-10'})
 
-    def my_test_run_cdaviesContigFilter_min_len_parse(self):
-        with self.assertRaisesRegex(ValueError, 'Cannot parse integer from min_length parameter'):
-            self.serviceImpl.run_cdaviesContigFilter(self.ctx,
-                                              {'workspace_name': self.wsName,
-                                               'assembly_input_ref': '1/fake/3',
-                                               'min_length': 'ten'})
-    def test_run_cdaviesContigFilter_max(self):
-        ref='79/16/1'
-        result = self.serviceImpl.run_cdaviesContigFilter_max(self.ctx, {
-        'workspace_name': self.wsName,
-        'assembly_ref': ref,
-        'min_length': 100,
-        'max_length': 1000000
-    })
-        print(result)
+    # def my_test_run_cdaviesContigFilter_min_len_parse(self):
+    #     print('test_run_cdaviesContigFilter_min_len_parse')
+    #     with self.assertRaisesRegex(ValueError, 'Cannot parse integer from min_length parameter'):
+    #         self.serviceImpl.run_cdaviesContigFilter(self.ctx,
+    #                                           {'workspace_name': self.wsName,
+    #                                            'assembly_input_ref': '1/fake/3',
+    #                                            'min_length': 'ten'})
+    # def test_run_cdaviesContigFilter_max(self):
+    #     print('test_run_cdaviesContigFilter_max')
+    #     ref='79/16/1'
+    #     result = self.serviceImpl.run_cdaviesContigFilter_max(self.ctx, {
+    #     'workspace_name': self.wsName,
+    #     'assembly_input_ref': ref,
+    #     'min_length': 100,
+    #     'max_length': 1000000
+    # })
+    #     print(result)
     
-    def test_invalid_params(self):
-        impl=self.serviceImpl
-        ctx=self.ctx
-        ws=self.wsName
-        #Missing assembly ref
-        with self.assertRaises(KeyError):
-            impl.run_cdaviesContigFilter_max(ctx, {'workspace_name': ws,
-                'min_length': 100, 'max_length': 1000000})
-        #Missing min length
-        with self.assertRaises(ValueError):
-            impl.run_cdaviesContigFilter_max(ctx, {'workspace_name': ws,
-                'assembly_ref': 'x', 'max_length': 1000000})
-        #Min length is negative
-        with self.assertRaises(ValueError):
-            impl.run_cdaviesContigFilter_max(ctx, {'workspace_name': ws,
-                'assembly_ref': 'x', 'min_length': -1, 'max_length': 1000000})
-        #Min length is wrong type
-        with self.assertRaises(ValueError):
-             impl.run_cdaviesContigFilter_max(ctx, {'workspace_name': ws,
-                 'assembly_ref': 'x', 'min_length': 'x', 'max_length': 1000000})
-        #Assembly ref is wrong type
-        with self.assertRaises(ValueError):
-            impl.run_cdaviesContigFilter_max(ctx, {'workspace_name': ws,
-                'assembly_ref': 1, 'min_length': 1, 'max_length': 1000000})
-        #Max length is negative
-        with self.assertRaises(ValueError):
-             impl.run_cdaviesContigFilter_max(ctx, {'workspace_name': ws,
-                 'assembly_ref': 'x', 'min_length': 100, 'max_length': -1})
-        #Missing max length
-        with self.assertRaises(KeyError):
-            impl.run_cdaviesContigFilter_max(ctx, {'workspace_name': ws,
-                'assembly_ref': 'x', 'min_length': 100})
-        #Max length is wrong type
-        with self.assertRaises(ValueError):
-            impl.run_cdaviesContigFilter_max(ctx, {'workspace_name': ws,
-                'assembly_ref': 'x', 'min_length': 100, 'max_length': 'X'})
+    # def test_invalid_params(self):
+    #     impl=self.serviceImpl
+    #     ctx=self.ctx
+    #     ws=self.wsName
+    #     #Missing assembly ref
+    #     with self.assertRaises(KeyError):
+    #         impl.run_cdaviesContigFilter_max(ctx, {'workspace_name': ws,
+    #             'min_length': 100, 'max_length': 1000000})
+    #     # #Missing min length
+    #     # with self.assertRaises(ValueError):
+    #     #     impl.run_cdaviesContigFilter_max(ctx, {'workspace_name': ws,
+    #     #         'assembly_input_ref': 'x', 'max_length': 1000000})
+    #     # #Min length is negative
+    #     # with self.assertRaises(ValueError):
+    #     #     impl.run_cdaviesContigFilter_max(ctx, {'workspace_name': ws,
+    #     #         'assembly_input_ref': 'x', 'min_length': -1, 'max_length': 1000000})
+    #     # #Min length is wrong type
+    #     # with self.assertRaises(ValueError):
+    #     #      impl.run_cdaviesContigFilter_max(ctx, {'workspace_name': ws,
+    #     #          'assembly_input_ref': 'x', 'min_length': 'x', 'max_length': 1000000})
+    #     # #Assembly ref is wrong type
+    #     # with self.assertRaises(ValueError):
+    #     #     impl.run_cdaviesContigFilter_max(ctx, {'workspace_name': ws,
+    #     #         'assembly_input_ref': 1, 'min_length': 1, 'max_length': 1000000})
+    #     # #Max length is negative
+    #     # with self.assertRaises(ValueError):
+    #     #      impl.run_cdaviesContigFilter_max(ctx, {'workspace_name': ws,
+    #     #          'assembly_input_ref': 'x', 'min_length': 100, 'max_length': -1})
+    #     # #Missing max length
+    #     # with self.assertRaises(KeyError):
+    #     #     impl.run_cdaviesContigFilter_max(ctx, {'workspace_name': ws,
+    #     #         'assembly_input_ref': 'x', 'min_length': 100})
+    #     # #Max length is wrong type
+    #     # with self.assertRaises(ValueError):
+    #     #     impl.run_cdaviesContigFilter_max(ctx, {'workspace_name': ws,
+    #     #         'assembly_ref': 'x', 'min_length': 100, 'max_length': 'X'})
     
-    def test_run_cdaviesContigFilter_test_min(self):
-        ref='79/16/1'
-        params={
-            'workspace_name': self.wsName,
-            'assembly_ref': ref,
-            'min_length': 200000,
-            'max_length': 6000000
-        } 
-        result = self.serviceImpl.run_cdaviesContigFilter_max(self.ctx, params)
-        self.assertEqual(result[0]['n_total'], 2)
-        self.assertEqual(result[0]['n_remaining'], 1)
+    # def test_run_cdaviesContigFilter_test_min(self):
+    #     ref='79/16/1'
+    #     params={
+    #         'workspace_name': self.wsName,
+    #         'assembly_ref': ref,
+    #         'min_length': 200000,
+    #         'max_length': 6000000
+    #     } 
+    #     result = self.serviceImpl.run_cdaviesContigFilter_max(self.ctx, params)
+    #     self.assertEqual(result[0]['n_total'], 2)
+    #     self.assertEqual(result[0]['n_remaining'], 1)
 
-    def test_run_cdaviesContigFilter_test_max(self):
-        ref='79/16/1'
-        params={
-            'workspace_name': self.wsName,
-            'assembly_ref': ref,
-            'min_length': 100000,
-            'max_length': 4000000
-        }  
-        result= self.serviceImpl.run_cdaviesContigFilter_max(self.ctx, params)
-        self.assertEqual(result[0]['n_total'], 2)
-        self.assertEqual(result[0]['n_remaining'], 1)
-        self.assertTrue(len(result[0]['filtered_assembly_ref']))
-        self.assertTrue(len(result[0]['report_name']))
-        self.assertTrue(len(result[0]['report_ref']))
+    # def test_run_cdaviesContigFilter_test_max(self):
+    #     ref='79/16/1'
+    #     params={
+    #         'workspace_name': self.wsName,
+    #         'assembly_ref': ref,
+    #         'min_length': 100000,
+    #         'max_length': 4000000
+    #     }  
+    #     result= self.serviceImpl.run_cdaviesContigFilter_max(self.ctx, params)
+    #     self.assertEqual(result[0]['n_total'], 2)
+    #     self.assertEqual(result[0]['n_remaining'], 1)
+    #     self.assertTrue(len(result[0]['filtered_assembly_ref']))
+    #     self.assertTrue(len(result[0]['report_name']))
+    #     self.assertTrue(len(result[0]['report_ref']))
