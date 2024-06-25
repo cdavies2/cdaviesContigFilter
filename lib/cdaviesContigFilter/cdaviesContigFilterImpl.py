@@ -74,9 +74,9 @@ This sample module contains one small method that filters contigs.
         if 'workspace_name' not in params:
             raise ValueError('Parameter workspace_name is not set in input arguments')
         workspace_name = params['workspace_name']
-        if 'assembly_ref' not in params:
-            raise ValueError('Parameter assembly_ref is not set in input arguments')
-        assembly_ref = params['assembly_ref']
+        if 'assembly_input_ref' not in params:
+            raise ValueError('Parameter assembly_input_ref is not set in input arguments')
+        assembly_input_ref = params['assembly_input_ref']
         if 'min_length' not in params:
             raise ValueError('Parameter min_length is not set in input arguments')
         min_length_orig = params['min_length']
@@ -94,7 +94,7 @@ This sample module contains one small method that filters contigs.
         # The return object gives us the path to the file that was created.
         logging.info('Downloading Assembly data as a Fasta file.')
         assemblyUtil = AssemblyUtil(self.callback_url)
-        fasta_file = assemblyUtil.get_assembly_as_fasta({'ref': 'assembly_ref'})
+        fasta_file = assemblyUtil.get_assembly_as_fasta({'ref': 'assembly_input_ref'})
 
 
         # Step 3 - Actually perform the filter operation, saving the good contigs to a new fasta file.
@@ -206,6 +206,37 @@ This sample module contains one small method that filters contigs.
             'n_total': n_total,
             'n_remaining': n_remaining,
             'filtered_assembly_ref': new_ref
+        }
+
+        # Create an output summary message for the report
+        text_message="".join([
+            'Filtered assembly to ',
+            str(n_remaining),
+            ' contigs out of ',
+            str(n_total)
+        ])
+
+        # Data for creating the report, referencing the assembly we uploaded
+        report_data={
+            'objects_created': [
+                {'ref': new_ref, 'description': 'Filtered contigs'}
+            ],
+            'text_message': text_message
+        }
+        # Initialize the report
+        kbase_report=KBaseReport(self.callback_url)
+        report=kbase_report.create({
+            'report': report_data,
+            'workspace_name': workspace_name
+        })
+        # Return the report reference and name in our results
+        output={
+            'report_ref': report['ref'],
+            'report_name': report['name'],
+            'n_total': n_total,
+            'n_remaining': n_remaining,
+            'filtered_assembly_ref': new_ref
+
         }
 
         #END run_cdaviesContigFilter_max

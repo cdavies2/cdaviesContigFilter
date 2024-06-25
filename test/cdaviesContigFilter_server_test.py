@@ -76,32 +76,28 @@ class cdaviesContigFilterTest(unittest.TestCase):
 
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
-    # def my_test_run_cdaviesContigFilter_ok(self):
-    #     # call your implementation
-    #     ret = self.serviceImpl.run_cdaviesContigFilter(self.ctx,
-    #                                             {'workspace_name': self.wsName,
-    #                                              'assembly_ref': self.assembly_ref,
-    #                                              'min_length': 10
-    #                                              })
-                                                
+    def test_run_cdaviesContigFilter_ok(self):
+        # call your implementation
+        ret = self.serviceImpl.run_cdaviesContigFilter(self.ctx,
+                                                {'workspace_name': self.wsName,
+                                                 'assembly_input_ref': self.assembly_ref,
+                                                 'min_length': 10
+                                                 })
+        
 
-    #     # Validate the returned data
-    #     self.assertEqual(ret[0]['n_initial_contigs'], 3)
-    #     self.assertEqual(ret[0]['n_contigs_removed'], 1)
-    #     self.assertEqual(ret[0]['n_contigs_remaining'], 2)
-
-    def my_test_run_cdaviesContigFilter_min_len_negative(self):
+    
+    def test_run_cdaviesContigFilter_min_len_negative(self):
         with self.assertRaisesRegex(ValueError, 'min_length parameter cannot be negative'):
             self.serviceImpl.run_cdaviesContigFilter(self.ctx,
                                               {'workspace_name': self.wsName,
-                                               'assembly_ref': '1/fake/3',
+                                               'assembly_input_ref': '1/fake/3',
                                                'min_length': '-10'})
 
     def my_test_run_cdaviesContigFilter_min_len_parse(self):
         with self.assertRaisesRegex(ValueError, 'Cannot parse integer from min_length parameter'):
             self.serviceImpl.run_cdaviesContigFilter(self.ctx,
                                               {'workspace_name': self.wsName,
-                                               'assembly_ref': '1/fake/3',
+                                               'assembly_input_ref': '1/fake/3',
                                                'min_length': 'ten'})
     def test_run_cdaviesContigFilter_max(self):
         ref='79/16/1'
@@ -174,3 +170,5 @@ class cdaviesContigFilterTest(unittest.TestCase):
         self.assertEqual(result[0]['n_total'], 2)
         self.assertEqual(result[0]['n_remaining'], 1)
         self.assertTrue(len(result[0]['filtered_assembly_ref']))
+        self.assertTrue(len(result[0]['report_name']))
+        self.assertTrue(len(result[0]['report_ref']))
