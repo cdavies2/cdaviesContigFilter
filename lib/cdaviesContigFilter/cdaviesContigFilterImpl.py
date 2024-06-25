@@ -74,9 +74,9 @@ This sample module contains one small method that filters contigs.
         if 'workspace_name' not in params:
             raise ValueError('Parameter workspace_name is not set in input arguments')
         workspace_name = params['workspace_name']
-        if 'assembly_input_ref' not in params:
-            raise ValueError('Parameter assembly_input_ref is not set in input arguments')
-        assembly_input_ref = params['assembly_input_ref']
+        if 'assembly_ref' not in params:
+            raise ValueError('Parameter assembly_ref is not set in input arguments')
+        assembly_ref = params['assembly_ref']
         if 'min_length' not in params:
             raise ValueError('Parameter min_length is not set in input arguments')
         min_length_orig = params['min_length']
@@ -94,7 +94,7 @@ This sample module contains one small method that filters contigs.
         # The return object gives us the path to the file that was created.
         logging.info('Downloading Assembly data as a Fasta file.')
         assemblyUtil = AssemblyUtil(self.callback_url)
-        fasta_file = assemblyUtil.get_assembly_as_fasta({'ref': 'assembly_input_ref'})
+        fasta_file = assemblyUtil.get_assembly_as_fasta({'ref': 'assembly_ref'})
 
 
         # Step 3 - Actually perform the filter operation, saving the good contigs to a new fasta file.
@@ -159,19 +159,19 @@ This sample module contains one small method that filters contigs.
         # ctx is the context object
         # return variables are: output
         #BEGIN run_cdaviesContigFilter_max
-        for name in ['min_length', 'max_length', 'assembly_input_ref', 'workspace_name']:
+        for name in ['min_length', 'max_length', 'assembly_ref', 'workspace_name']:
             if name not in params:
                 raise ValueError('Parameter "' + name + '" is required but missing')
             if not isinstance(params['min_length'], int) or (params['min_length'] < 0):
                 raise ValueError('Min length must be a non-negative integer')
             if not isinstance(params['max_length'], int) or (params['max_length'] < 0):
                 raise ValueError('Max length must be a non-negative integer')
-            if not isinstance(params['assembly_input_ref'], str) or not len(params['assembly_input_ref']):
+            if not isinstance(params['assembly_ref'], str) or not len(params['assembly_ref']):
                 raise ValueError('Pass in a valid assembly reference string')
-        print(params['min_length'], params['max_length'], params['assembly_input_ref'])
+        print(params['min_length'], params['max_length'], params['assembly_ref'])
         output={}
         assembly_util=AssemblyUtil(self.callback_url)
-        fasta_file = assembly_util.get_assembly_as_fasta({'ref': params['assembly_input_ref']})
+        fasta_file = assembly_util.get_assembly_as_fasta({'ref': params['assembly_ref']})
         print(fasta_file)
         parsed_assembly=SeqIO.parse(fasta_file['path'], 'fasta')
         min_length=params['min_length']
