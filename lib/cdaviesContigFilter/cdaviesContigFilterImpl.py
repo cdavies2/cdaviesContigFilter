@@ -169,10 +169,10 @@ This sample module contains one small method that filters contigs.
                 raise ValueError('Max length must be a non-negative integer')
             if not isinstance(params['assembly_input_ref'], str) or not len(params['assembly_input_ref']):
                 raise ValueError('Pass in a valid assembly reference string')
-        print(params['min_length'], params['max_length'], params['assembly_ref'])
+        print(params['min_length'], params['max_length'], params['assembly_input_ref'])
         output={}
         assembly_util=AssemblyUtil(self.callback_url)
-        fasta_file = assembly_util.get_assembly_as_fasta({'ref': params['assembly_ref']})
+        fasta_file = assembly_util.get_assembly_as_fasta({'ref': params['assembly_input_ref']})
         print(fasta_file)
         parsed_assembly=SeqIO.parse(fasta_file['path'], 'fasta')
         min_length=params['min_length']
